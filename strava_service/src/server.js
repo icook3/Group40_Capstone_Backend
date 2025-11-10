@@ -1,5 +1,8 @@
+import dotenv from "dotenv";
 import express from "express";
 import axios from "axios";
+
+dotenv.config();
 
 const app = express(); // Create express app
 const PORT = process.env.PORT || 8080; // Server port
