@@ -76,6 +76,44 @@ app.get("/oauth/callback", async (req, res) =>{
     }
 });
 
+app.get("/oauth/refresh", async (req, res) => {
+    try {
+        // Front end sends refresh_token in URL:  ?refresh_token=XYZ
+        const {refresh_token} = req.query;
+
+        if (!refresh_token) {
+            return res.status(400).send("Missing 'refresh_token' query parameter");
+        }
+
+        // Exchange code for access token securely from server side
+        // IMPORTANT: MUST NOT HAPPEN IN BROWSER!!!!!!!
+        const tokenURL = "https://www.strava.com/oauth/token";
+        const payload = {
+            client_id: STRAVA_CLIENT_ID,
+            client_secret: STRAVA_CLIENT_SECRET,
+            grant_type: "refresh_token",
+            refresh_token,
+        };
+
+        // Perform POST to Strava OAuth token endpoint
+        const {data} = await axios.post(tokenURL, payload, {
+            headers: { "Content-Type": "application/json" },
+            timeout: 10000
+        })
+
+        // Return minimal JSON response
+        return res.json({
+            access_token: data.access_token ?? "",
+            refresh_token: data.refresh_token ?? "",
+            expires_at: data.expires_at ?? "",
+        });
+
+    } catch (err) {
+        console.error("Token refresh failed:", err?.response?.data || err.message);
+        return res.status(500).send("Token refresh failed");
+    }
+});
+
 // Start server
 app.listen(PORT, () => {
     console.log(`Strava OAuth Service is running on port ${PORT}`)
