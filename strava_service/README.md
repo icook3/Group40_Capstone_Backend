@@ -80,17 +80,25 @@ Update the following field:
 
 > **Only the domain** goes here — no `https://`, and no `/oauth/callback`.
 
-## OAuth Flow Summary
+## OAuth + Token Refresh Flow Summary
 1. (Frontend) - Send user to Strava login page
 2. (Strava UI) - User approves permissions
 3. (Strava) - Redirects back to this service with ?code=XYZ
 4. (Backend) - Exchanges code for tokens securely
 5. (Backend) - Redirects user to FRONTEND_REDIRECT_URI#access_token=...&refresh_token=...
-6. (Frontend) - Stores token and clears hash
-7. (Frontend) - Uses token to call Strava API
+6. (Frontend) - Stores tokens and clears hash
+7. (Frontend) - Uses access token to call Strava API
+8. (Frontend) - When access token expires, sends refresh token to this service
+9. (Backend) - Exchanges refresh token with Strava for new tokens
+10. (Backend) - Returns updated tokens to frontend as a JSON (not a redirect)
+11. (Frontend) - Replaces stored tokens with new ones
 
 ## Security Notes
 - The **Strava Client Secret must never be exposed in browser code**.
 - Tokens are returned via `#hash` fragment so they **do not appear in browser history or server logs**.
 - `.env` files and tokens should **never** be committed to Git.
 - If not followed you must assume the secret has been stolen
+
+## Refresh Behavior Note
+Strava **only issues new tokens** when the current access token is expired or expires within **1 hour**.  
+If the token is still valid for longer than that, Strava will return the **same** token values.
