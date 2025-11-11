@@ -76,6 +76,9 @@ app.get("/oauth/callback", async (req, res) =>{
     }
 });
 
+// Note: Strava only issues a NEW token if the current token expires in <= 1 hour.
+// If the existing access token is still valid for > 1 hour,
+// Strava will return the SAME access_token and refresh_token.
 app.get("/oauth/refresh", async (req, res) => {
     try {
         // Front end sends refresh_token in URL:  ?refresh_token=XYZ
@@ -85,7 +88,7 @@ app.get("/oauth/refresh", async (req, res) => {
             return res.status(400).send("Missing 'refresh_token' query parameter");
         }
 
-        // Exchange code for access token securely from server side
+        // Exchange refresh token for new tokens securely from server side
         // IMPORTANT: MUST NOT HAPPEN IN BROWSER!!!!!!!
         const tokenURL = "https://www.strava.com/oauth/token";
         const payload = {
