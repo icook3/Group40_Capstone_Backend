@@ -5,6 +5,7 @@ import axios from "axios";
 dotenv.config();
 
 const app = express(); // Create express app
+app.use(express.json());
 const PORT = process.env.PORT || 8080; // Server port
 
 // Assign environment details
@@ -79,13 +80,13 @@ app.get("/oauth/callback", async (req, res) =>{
 // Note: Strava only issues a NEW token if the current token expires in <= 1 hour.
 // If the existing access token is still valid for > 1 hour,
 // Strava will return the SAME access_token and refresh_token.
-app.get("/oauth/refresh", async (req, res) => {
+app.post("/oauth/refresh", async (req, res) => {
     try {
-        // Front end sends refresh_token in URL:  ?refresh_token=XYZ
-        const {refresh_token} = req.query;
+        // Front end sends refresh_token in json
+        const {refresh_token} = req.body;
 
         if (!refresh_token) {
-            return res.status(400).send("Missing 'refresh_token' query parameter");
+            return res.status(400).send("Missing 'refresh_token' in JSON body");
         }
 
         // Exchange refresh token for new tokens securely from server side

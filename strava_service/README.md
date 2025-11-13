@@ -88,7 +88,7 @@ Update the following field:
 5. (Backend) - Redirects user to FRONTEND_REDIRECT_URI#access_token=...&refresh_token=...
 6. (Frontend) - Stores tokens and clears hash
 7. (Frontend) - Uses access token to call Strava API
-8. (Frontend) - When access token expires, sends refresh token to this service
+8. (Frontend) - When access token expires, sends refresh token to this service via JSON
 9. (Backend) - Exchanges refresh token with Strava for new tokens
 10. (Backend) - Returns updated tokens to frontend as a JSON (not a redirect)
 11. (Frontend) - Replaces stored tokens with new ones
