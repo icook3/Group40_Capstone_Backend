@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import axios from "axios";
+import cors from "cors";
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 8080; // Server port
 // Assign environment details
 const STRAVA_CLIENT_ID = process.env.STRAVA_CLIENT_ID;
 const STRAVA_CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET;
+const FRONTEND_URI = process.env.FRONTEND_URI;
 const FRONTEND_REDIRECT_URI = process.env.FRONTEND_REDIRECT_URI
 
 // Check to ensure necessary info provided
@@ -18,6 +20,16 @@ if (!STRAVA_CLIENT_ID || !STRAVA_CLIENT_SECRET || !FRONTEND_REDIRECT_URI) {
     console.error("ERROR: Missing client Id, client secret, or frontend redirect url");
     process.exit(1);
 }
+
+// CORS setup
+app.use(cors({
+    origin: FRONTEND_URI,
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type"],
+    credentials: false
+}));
+app.options("/oauth/refresh", cors());
+app.options("/oauth/callback", cors());
 
 // Health check endpoint - For docker to test if service is still alive
 app.get("/health", (_req, res) => {

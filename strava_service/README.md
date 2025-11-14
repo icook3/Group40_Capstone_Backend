@@ -39,7 +39,8 @@ Open .env and fill in your values:
 ```
 STRAVA_CLIENT_ID=your_client_id
 STRAVA_CLIENT_SECRET=your_client_secret
-FRONTEND_REDIRECT_URI=https://jwt.io/   # good for testing
+FRONTEND_URI=https://your-frontend.example.com
+FRONTEND_REDIRECT_URI=https://your-frontend.example.com/path
 PORT=8080
 ```
 
