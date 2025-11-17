@@ -13,7 +13,6 @@ This allows for a serverless-style frontend application to use the Strava API **
   - `server.js` - Main Node/Express OAuth callback server
 - `.dockerignore` - Excludes secrets and build artifacts
 - `.env.example` - Template for required environment variables
-- `.gitignore` - Excludes secrets and build artifacts
 - `Dockerfile` - Container definition
 - `package.json` - Node dependencies and start script
 - `package-lock.json` - Locked dependency versions
