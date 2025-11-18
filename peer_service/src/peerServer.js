@@ -1,5 +1,5 @@
-                import dotenv from "dotenv";
+import dotenv from "dotenv";
 import { PeerServer } from "peer";
 
 dotenv.config();
-const peerServer = PeerServer({port: process.env.PORT||9000, path: process.env.PATH||"/zlowServer", allow_discovery: true, corsOptions: [process.env.FRONT||"localhost:8000"]});
+const peerServer = PeerServer({port: process.env.PORT||9000, path: process.env.SERVERPATH||"/zlowServer", allow_discovery: true, corsOptions: [process.env.FRONT||"localhost:8000"]});
