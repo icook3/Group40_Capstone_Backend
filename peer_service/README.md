@@ -52,9 +52,9 @@ You can verify if it is running at `http://localhost:9000/path`
 You should get back a JSON describing the peer server
 
 ### 5. Test the service
-In the frontend code, set it to direct to the peerServer (This is not implemented as an option yet - TODO: show where in the frontend code to change for this)
+In the frontend code, set it to direct to the peerServer at the bottom of constants.js. You will have to set the base URL, the port number, and the path. 
 
 ## Security Notes
-- The `.env` files are not as important to keep secure as they are for the Strave Service. 
+- The `.env` files are not as important to keep secure as they are for the Strava Service. 
 - There is no secret to steal
 - Anyone who knows the path to the URL can access a list of peers in the peerServer by adding on /peers. (I will have to check if it stores IP addresses - I don't think it will: TODO)
